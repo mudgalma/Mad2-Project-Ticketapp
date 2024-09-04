@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Report</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+       
+        body {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-4">Monthly Entertainment Report</h1>
+        <p>Hello, {{ user_name }}!</p>
+        
+        <p>Here is your  monthly entertainment report:</p>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Show Title</th>
+                    <th>Seats Reserved</th>
+                    <th>Rating</th>
+                    <th>Feedback</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in booked %}
+                <tr>
+                    <td>{{ i.showname }}</td>
+                    <td>{{ i.booked }}</td>
+                    <td>{{ i.ratings }}</td>
+                    <td>{{ i.reviews }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <p>Thank you for choosing our services. We appreciate your patronage.</p>
+    </div>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

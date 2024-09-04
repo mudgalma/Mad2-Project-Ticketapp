@@ -1,0 +1,463 @@
+openapi: 3.0.0
+info:
+  title: Ticket Booking APP Project
+  description: >
+    <div><h4>The TicketBooking project aims to provide users with a convenient
+    and efficient way to book tickets for shows . The system
+    consists of several tables, including the Venue, Show, 
+     User, Booking, and Rate tables.</h4> </div>
+
+    
+
+    <h3> Venue Table Schema </h3>  <table>
+      <thead>
+        <th>Column Name</th>
+        <th>Column Type</th>
+        <th>Constraints</th>
+      </thead>
+      <tbody>
+      <tr>
+        <td>id</td>
+        <td>Integer</td>
+        <td>Primary Key, Auto Increment</td>
+      </tr>
+      <tr>
+        <td>venue_name</td>
+        <td>String</td>
+        <td>Not Null</td>
+      </tr>
+      <tr>
+        <td>place</td>
+        <td>String</td>
+        <td>Not Null</td>
+      </tr>      
+      <tr>
+        <td>location</td>
+        <td>String</td>
+        <td>Not Null</td>
+      </tr>
+      <tr>
+        <td>capacity</td>
+        <td>Integer</td>
+        <td>Not Null</td>
+      </tr>
+    
+    </tbody> </table>
+    
+
+
+
+    <h3>Show Table Schema</h3>
+      <table>
+          <thead>
+              <tr>
+                  <th>Column Name</th>
+                  <th>Column Type</th>
+                  <th>Constraints</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <td>id</td>
+                  <td>Integer</td>
+                  <td>Primary Key, Auto Increment</td>
+              </tr>
+              <tr>
+                  <td>Show_name</td>
+                  <td>String(200)</td>
+                  <td>Not Null</td>
+              </tr>
+              <tr>
+                  <td>ratings</td>
+                  <td>Integer</td>
+                  <td>Not Null</td>
+              </tr>
+              <tr>
+                  <td>timings</td>
+                  <td>DateTime</td>
+                  <td>Not Null</td>
+              </tr>
+              <tr>
+                  <td>tags</td>
+                  <td>String(1000)</td>
+                  <td>Not Null</td>
+              </tr>
+              <tr>
+                  <td>price</td>
+                  <td>Integer</td>
+                  <td>Not Null</td>
+              </tr>
+              <tr>
+                  <td>seats</td>
+                  <td>Integer</td>
+                  <td>Not Null</td>
+              </tr>
+              <tr>
+                  <td>movie_description</td>
+                  <td>String</td>
+                  <td>Nullable</td>
+              </tr>
+              <tr>
+                  <td>venue_id</td>
+                  <td>Integer</td>
+                  <td>Foreign Key (venue.id), Not Null</td>
+              </tr>
+          </tbody>
+      </table>
+
+      
+    <h3> User Table Schema </h3> 
+    <table>
+      <thead>
+        <th>Column Name</th>
+        <th>Column Type</th>
+        <th>Constraints</th>
+      </thead>
+      <tbody>
+      <tr>
+        <td>id</td>
+        <td>Integer</td>
+        <td>Primary Key, Auto Increment</td>
+      </tr>
+      <tr>
+        <td>username</td>
+        <td>String</td>
+        <td>Unique, Not Null</td>
+      </tr>
+      <tr>
+        <td>email</td>
+        <td>String</td>
+        <td>Unique, Not Null</td>
+      </tr>
+          
+      <tr>
+        <td>password</td>
+        <td>String</td>
+        <td>Not Null</td>
+      </tr>         
+    </tbody> </table>
+
+      <h3>Booking Table Schema</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Column Name</th>
+                <th>Column Type</th>
+                <th>Constraints</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>sb_id</td>
+                <td>Integer</td>
+                <td>Primary Key, Auto Increment</td>
+            </tr>
+            <tr>
+                <td>show_id</td>
+                <td>Integer</td>
+                <td>Foreign Key (references show.id), Not Null</td>
+            </tr>
+            <tr>
+                <td>user_id</td>
+                <td>Integer</td>
+                <td>Foreign Key (references user.id), Not Null</td>
+            </tr>
+            <tr>
+                <td>number_of_bookings</td>
+                <td>Integer</td>
+                <td>Not Null</td>
+            </tr>
+        </tbody>
+    </table>
+
+        
+      <h3> Rate Table Schema </h3> 
+      <table>
+          <thead>
+            <th>Column Name</th>
+            <th>Column Type</th>
+            <th>Constraints</th>
+          </thead>
+          <tbody>
+          <tr>
+            <td>r_id</td>
+            <td>Integer</td>
+            <td>Primary Key, Auto Increment</td>
+          </tr>
+          <tr>
+            <td>rating</td>
+            <td>Integer</td>
+            <td>Not Null</td>
+          </tr>
+          <tr>
+            <td>review</td>
+            <td>String</td>
+            <td>Not Null</td>
+          </tr>
+          <tr>
+            <td>show_name</td>
+            <td>String</td>
+            <td>Not Null</td>
+          </tr>
+          <tr>
+            <td>rateshow_id</td>
+            <td>Integer</td>
+            <td>Foreign Key (show.show_id), Not Null</td>
+          </tr>
+          <tr>
+            <td>rateuser_id</td>
+            <td>Integer</td>
+            <td>Foreign Key (user.id), Not Null</td>
+        </tbody>
+      </table> 
+        
+        
+    <h3> Error Codes </h3>  <table>
+      <thead>
+        <th>Resource</th>
+        <th>Error Code</th>
+        <th>Message</th>
+      </thead>
+      <tbody>
+
+      <tr>
+        <td>Bookedshow</td>
+        <td>BOOKING01</td>
+        <td>seats is required</td>
+      </tr>
+      <tr>
+        <td>Bookedshow</td>
+        <td>BOOKING02</td>
+        <td>This much seat are not available</td>
+      </tr>
+      <tr>
+        <td>Rate</td>
+        <td>RATEING01</td>
+        <td>Rating is required</td>
+      </tr>
+      <tr>
+        <td>Rate</td>
+        <td>RATEING02</td>
+        <td>Review is required</td>
+      </tr>
+      <tr>
+        <td>Rate</td>
+        <td>RATEING03</td>
+        <td>dont review again</td>
+      </tr>
+    </tbody>
+    </table>
+      
+     
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1:5000/
+paths:
+
+ 
+  /api/bookedshow:
+    description: Url to read the show bookings
+    get:
+      description: Operation to read the show bookings
+      
+      responses:
+        '200':
+          description: Request Successful
+          content:
+            application/json:
+              schema:
+                title: books
+                type: object
+                properties:
+                  sb_id:
+                    type: integer
+                    example: 1
+                  user_id:
+                    type: integer
+                    example: 1
+                  
+                  show_name:
+                    type: string
+                    example: show1
+                  timings:
+                    type: integer
+                    example: 12/04/2023 12:30am
+                  venue_name:
+                    type: string
+                    example: waves
+                  venue_place:
+                    type: string
+                    example: Chennai
+                  venue_loaction:
+                    type: string
+                    example: mandi
+                  
+                 
+        '404':
+          description:  not found
+        '500':
+          description: Internal server error
+  /api/bookedshow/create/{show_id}:
+    description: Url to add the show bookings
+    post:
+      description: Operation to create the show bookings
+      parameters:
+        - in: path
+          name: show_id
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                NOS:
+                  type: integer
+                  example: 5
+      responses:
+        '201':
+          description: Show booking
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  show_id:
+                    type: integer
+                    example: 1
+                  user_id:
+                    type: integer
+                    example: 1
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_code:
+                    type: string
+                  error_message:
+                    type: string
+        '404':
+          description:  not found
+        '500':
+          description: Internal Server Error
+  /api/rate/create/{user_id}/{show_id}:
+    post:
+      description: Operation to rate the show
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+            example: 1
+        - in: path
+          name: show_id
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        description: Rating details
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rating:
+                  type: integer
+                  example: 4
+                review:
+                  type: string
+                  example: "This show was great!"
+      responses:
+        '200':
+          description: Rating successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "done completely"
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_code:
+                    type: string
+                  error_message:
+                    type: string
+        '401':
+          description: Unauthorized
+        '404':
+          description: Show not found
+     
+          
+  /api/book/{show_id}:
+    get:
+      description: Get show details by show ID
+      parameters:
+        - in: path
+          name: show_id
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Show details retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  venue_name:
+                    type: string
+                    example: Movie Theater 1
+                  venue_location:
+                    type: string
+                    example: New York
+                  venue_place:
+                    type: string
+                    example: Downtown
+        '404':
+          description: Show not found
+        '500':
+          description: Internal Server Error
+
+  /api/profile:
+    get:
+      description: Get user profile
+      responses:
+        '200':
+          description: User profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: integer
+                    example: 1
+                  username:
+                    type: string
+                    example: john_doe
+                  email:
+                    type: string
+                    example: john.doe@example.com
+                  
+        '404':
+          description: User not found
+        '500':
+          description: Internal Server Error
