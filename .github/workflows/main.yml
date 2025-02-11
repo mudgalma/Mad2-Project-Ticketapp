@@ -1,0 +1,59 @@
+name: Setup and Build Sphinx Documentation
+
+on:
+  workflow_dispatch:  # Allow manual triggering from the Actions tab
+
+jobs:
+  setup-and-build-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.9'
+
+      # Step 3: Install dependencies
+      - name: Install Sphinx and Extensions
+        run: |
+          python -m pip install --upgrade pip
+          pip install sphinx sphinx-autobuild sphinx-rtd-theme sphinx-autoapi
+
+      # Step 4: Create docs folder and run sphinx-quickstart
+      - name: Initialize Sphinx Documentation
+        run: |
+          mkdir -p docs
+          cd docs
+          sphinx-quickstart --quiet --project "Benchmark Generator" --author "Your Name" --release "1.0" --extensions "sphinx.ext.autodoc,sphinx.ext.napoleon,sphinx.ext.viewcode,sphinx.autoapi.extension" --makefile --batchfile
+
+      # Step 5: Modify conf.py to include source path and extensions
+      - name: Update conf.py for AutoAPI and Extensions
+        run: |
+          echo "Updating conf.py..."
+          sed -i '/^import os/a import sys\nsys.path.insert(0, os.path.abspath(\"../src\"))' docs/conf.py
+          sed -i '/^extensions = \[/c\extensions = [\"sphinx.ext.autodoc\", \"sphinx.ext.napoleon\", \"sphinx.ext.viewcode\", \"autoapi.extension\"]' docs/conf.py
+          echo "autoapi_type = 'python'\nautoapi_dirs = ['../']" >> docs/conf.py
+
+      # Step 6: Build HTML documentation
+      - name: Build HTML Documentation
+        run: |
+          cd docs
+          make html
+
+      # Step 7: Generate coverage report (optional)
+      - name: Generate Coverage Report
+        run: |
+          cd docs
+          sphinx-build -b coverage . _build/coverage
+
+      # Step 8: Upload artifacts (optional)
+      - name: Upload Documentation Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: SphinxDocsHTML
+          path: docs/_build/html/
