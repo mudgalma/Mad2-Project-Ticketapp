@@ -53,7 +53,7 @@ jobs:
 
       # Step 8: Upload artifacts (optional)
       - name: Upload Documentation Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4.6.0
         with:
           name: SphinxDocsHTML
           path: docs/_build/html/
