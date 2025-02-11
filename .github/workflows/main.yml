@@ -19,19 +19,25 @@ jobs:
           python-version: '3.9'
 
       # Step 3: Install dependencies
-      - name: Install Sphinx and Extensions
+      - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install sphinx sphinx-autobuild sphinx-rtd-theme sphinx-autoapi
+          pip install sphinx sphinx-autobuild sphinx-rtd-theme sphinx-autoapi ruff
 
-      # Step 4: Create docs folder and run sphinx-quickstart
+      # Step 4: Run Ruff
+      - name: Run Ruff
+        run: |
+          ruff check .
+          ruff format .
+
+      # Step 5: Create docs folder and run sphinx-quickstart
       - name: Initialize Sphinx Documentation
         run: |
           mkdir -p docs
           cd docs
           sphinx-quickstart --quiet --project "ticket Generator" --author "Your Name" --release "1.0" --makefile --batchfile
 
-      # Step 5: Copy existing conf.py file
+      # Step 6: Copy existing conf.py file
       - name: Copy existing conf.py
         run: |
           cp .github/conf.py docs/conf.py
@@ -40,13 +46,13 @@ jobs:
       - name: Debug conf.py Contents
         run: cat docs/conf.py
 
-      # Step 6: Build HTML documentation
+      # Step 7: Build HTML documentation
       - name: Build HTML Documentation
         run: |
           cd docs
           make html
 
-      # Step 7 (Optional): Upload artifacts
+      # Step 8 (Optional): Upload artifacts
       - name: Upload Documentation Artifacts
         uses: actions/upload-artifact@v4.6.0
         with:
