@@ -35,7 +35,7 @@ jobs:
       - name: Update conf.py for AutoAPI and Extensions
         run: |
           echo "Updating conf.py..."
-          sed -i '/^import os/a import sys\nsys.path.insert(0, os.path.abspath(\"../src\"))' docs/conf.py
+          sed -i '/^import os/a import sys\nsys.path.insert(0, os.path.abspath(\"../\"))' docs/conf.py
           sed -i '/^extensions = \[/c\extensions = [\"sphinx.ext.autodoc\", \"sphinx.ext.napoleon\", \"sphinx.ext.viewcode\", \"autoapi.extension\"]' docs/conf.py
           echo "autoapi_type = 'python'\nautoapi_dirs = ['../']" >> docs/conf.py
 
