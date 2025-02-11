@@ -29,15 +29,16 @@ jobs:
         run: |
           mkdir -p docs
           cd docs
-          sphinx-quickstart --quiet --project "Benchmark Generator" --author "Your Name" --release "1.0" --extensions "sphinx.ext.autodoc,sphinx.ext.napoleon,sphinx.ext.viewcode,sphinx.autoapi.extension" --makefile --batchfile
+          sphinx-quickstart --quiet --project "ticket Generator" --author "Your Name" --release "1.0" --makefile --batchfile
 
-      # Step 5: Modify conf.py to include source path and extensions
-      - name: Update conf.py for AutoAPI and Extensions
+      # Step 5: Copy existing conf.py file
+      - name: Copy existing conf.py
         run: |
-          echo "Updating conf.py..."
-          sed -i '/^import os/a import sys\nsys.path.insert(0, os.path.abspath(\"../\"))' docs/conf.py
-          sed -i '/^extensions = \[/c\extensions = [\"sphinx.ext.autodoc\", \"sphinx.ext.napoleon\", \"sphinx.ext.viewcode\", \"autoapi.extension\"]' docs/conf.py
-          echo "autoapi_type = 'python'\nautoapi_dirs = ['../']" >> docs/conf.py
+          cp .github/conf.py docs/conf.py
+
+      # Debug conf.py contents (Optional)
+      - name: Debug conf.py Contents
+        run: cat docs/conf.py
 
       # Step 6: Build HTML documentation
       - name: Build HTML Documentation
@@ -45,13 +46,7 @@ jobs:
           cd docs
           make html
 
-      # Step 7: Generate coverage report (optional)
-      - name: Generate Coverage Report
-        run: |
-          cd docs
-          sphinx-build -b coverage . _build/coverage
-
-      # Step 8: Upload artifacts (optional)
+      # Step 7 (Optional): Upload artifacts
       - name: Upload Documentation Artifacts
         uses: actions/upload-artifact@v4.6.0
         with:
